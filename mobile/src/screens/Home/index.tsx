@@ -14,8 +14,8 @@ export function Home() {
 
   const navigation = useNavigation()
 
-  function handleOpenGame({id, title, bannerUrl}: GameCardProps){
-    navigation.navigate('game', {id, title, bannerUrl})
+  function handleOpenGame({id, name, bannerUrl}: GameCardProps){
+    navigation.navigate('game', {id, name, bannerUrl})
   }
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export function Home() {
       <SafeAreaView style={styles.container}>
         <Image source={logoImg} style={styles.logo} />
 
-        <Heading title='Encontre seu duo!' subtitle='Selecione o game que deseja jogar...' />
+        <Heading name='Encontre seu duo!' subtitle='Selecione o game que deseja jogar...' />
 
         <FlatList data={games} keyExtractor={item => item.id} renderItem={({ item }) => (
           <GameCard data={item} onPress={() => handleOpenGame(item)} />
