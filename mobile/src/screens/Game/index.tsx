@@ -10,6 +10,7 @@ import { THEME } from '../../theme';
 import logoImg from '../../assets/logo-nlw-esports.png'
 import { Heading } from '../../components/Heading';
 import { DuoCard, DuoCardProps } from '../../components/DuoCard';
+import {DuoMatch} from "../../components/DuoMatch/index"
 
 export function Game() {
 
@@ -17,6 +18,7 @@ export function Game() {
     const game = route.params as GameParams
     const navigation = useNavigation()
     const [duos, setDuos] = useState<DuoCardProps[]>([])
+    const [ discordDuoSelected, setDiscordDuoSelected ] = useState('a')
 
     function handleGoBack() {
         navigation.goBack()
@@ -58,6 +60,7 @@ export function Game() {
                     <Text style={styles.emptyListText}> Não há anúncios publicados ainda </Text>
                     )}
                  />
+                 <DuoMatch onClose={() => setDiscordDuoSelected('')} visible={discordDuoSelected.length > 0} discord='Joãoooo' />
             </SafeAreaView>
         </Background>
     );
