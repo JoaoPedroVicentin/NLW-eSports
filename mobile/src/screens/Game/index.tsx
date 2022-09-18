@@ -18,10 +18,16 @@ export function Game() {
     const game = route.params as GameParams
     const navigation = useNavigation()
     const [duos, setDuos] = useState<DuoCardProps[]>([])
-    const [ discordDuoSelected, setDiscordDuoSelected ] = useState('a')
+    const [ discordDuoSelected, setDiscordDuoSelected ] = useState('')
 
     function handleGoBack() {
         navigation.goBack()
+    }
+
+    async function getDiscordUser(adsId: string){
+        fetch(`http://192.168.1.37:3333/ads/${adsId}/discord`)
+            .then(response => response.json())
+            .then(data => setDiscordDuoSelected(data.discord))
     }
 
     useEffect(() => {
@@ -45,12 +51,12 @@ export function Game() {
 
                 <Image source={{ uri: game.bannerUrl }} style={styles.cover} resizeMode="cover" />
 
-                <Heading name={game.name} subtitle='Conecte-se e comece a jogar!' />
+                <Heading title={game.name} subtitle='Conecte-se e comece a jogar!' />
 
                 <FlatList data={duos} 
                 keyExtractor={item => item.id} 
                 renderItem={({ item }) => (
-                    <DuoCard onConnect={() => { }} data={item} />
+                    <DuoCard onConnect={() => getDiscordUser(item.id)} data={item} />
                 )} 
                 horizontal 
                 style={styles.containerList} 
@@ -60,7 +66,7 @@ export function Game() {
                     <Text style={styles.emptyListText}> Não há anúncios publicados ainda </Text>
                     )}
                  />
-                 <DuoMatch onClose={() => setDiscordDuoSelected('')} visible={discordDuoSelected.length > 0} discord='Joãoooo' />
+                 <DuoMatch onClose={() => setDiscordDuoSelected('')} visible={discordDuoSelected.length > 0} discord={discordDuoSelected} />
             </SafeAreaView>
         </Background>
     );
